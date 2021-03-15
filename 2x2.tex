@@ -1,0 +1,44 @@
+\documentclass{article}
+
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{mwe}
+
+\begin{document}
+    \begin{figure*}
+        \centering
+        \begin{subfigure}[b]{0.475\textwidth}
+            \centering
+            \includegraphics[width=\textwidth]{figs/fb1}
+            \caption[Network2]%
+            {{\small Fibroblast 0}}    
+            \label{fig:mean and std of net14}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.475\textwidth}  
+            \centering 
+            \includegraphics[width=\textwidth]{figs/fb2}
+            \caption[]%
+            {{\small Fibroblast 4}}    
+            \label{fig:mean and std of net24}
+        \end{subfigure}
+        \vskip\baselineskip
+        \begin{subfigure}[b]{0.475\textwidth}   
+            \centering 
+            \includegraphics[width=\textwidth]{figs/tm1}
+            \caption[]%
+            {{\small Tumor 1}}    
+            \label{fig:mean and std of net34}
+        \end{subfigure}
+        \hfill
+        \begin{subfigure}[b]{0.475\textwidth}   
+            \centering 
+            \includegraphics[width=\textwidth]{figs/tm2}
+            \caption[]%
+            {{\small Tumor 5}}    
+            \label{fig:mean and std of net44}
+        \end{subfigure}
+        \caption{ 
+Survival analysis based on the expression the top 10 gene signature from each cluster} 
+    \end{figure*}
+\end{document}

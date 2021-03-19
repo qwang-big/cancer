@@ -33,10 +33,10 @@ K=20
 x=read.table('Sample31-T-FJ13_DP8400016195TL_F4.bin1.Lasso.gene.txt',header=T)
 y=unique(x$geneID[grep('^MT-',x$geneID)])
 d=unique(round(x[,J]/K)*K)
-d$MIDCounts=1
+d$MIDCounts=0
 m1=add_sig(x,y,d)
 m1$g=1
-
+m1$MIDCounts = m1$MIDCounts/10
 v=matrix(c(colMin(x[,J]),max=colMax(x[,J])),nrow=2,byrow=T)
 v1=diff(v)
 vf=v1[1]/v1[2]
@@ -53,6 +53,7 @@ dy=Y[[j]]
 m= add_sig_rect(x,y,dx,dy)
 if(nrow(m)<10) next
 m$g=2
-p=ggplot() + geom_point(data=m, aes(x,y, fill=MIDCounts), size=1, shape=23, stroke=0) + geom_point(data=m1, aes(x,y, fill=MIDCounts), size=1, shape=23, stroke=0) +geom_rect(data=m1, aes(xmin=min(dx), xmax=max(dx), ymin=min(dy), ymax=max(dy)), color="black", fill=NA)+ facet_wrap(~g, scales = "free") + scale_fill_gradient2(low='blue',mid='white',high='red',midpoint = 0, limits = c(-10,10))
-ggsave(p,filename=paste0('figs/',i,'-',j,'.jpg'))
+den=round(nrow(m)/(max(dx)-min(dx))/(max(dy)-min(dy)),3)
+p=ggplot() + geom_point(data=m, aes(x,y, fill=MIDCounts), size=1, shape=22, stroke=0) + geom_point(data=m1, aes(x,y, fill=MIDCounts), size=1, shape=22, stroke=0) +geom_rect(data=m1, aes(xmin=min(dx), xmax=max(dx), ymin=min(dy), ymax=max(dy)), color="black", fill=NA)+annotate(geom="text", x=min(dx)+10, y=min(dy), label=den)+ facet_wrap(~g, scales = "free") + scale_fill_gradient2(low='blue',mid='white',high='red',midpoint = 0, limits = c(-10,10), oob=scales::squish)
+ggsave(p,filename=paste0('figs/',i,'-',j,'.jpg'),width=13.6,height=7)
 }}

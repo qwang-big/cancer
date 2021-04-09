@@ -1,0 +1,5 @@
+install.packages("msigdbr")
+h_gene_sets = msigdbr(species = "Homo sapiens", category = "H")
+write.table(h_gene_sets[h_gene_sets$gs_name=='HALLMARK_GLYCOLYSIS','gene_symbol'],file='~/prj/lung/HALLMARK_GLYCOLYSIS.csv',sep='\t',quote=F,row.names=F)
+gs = msigdbr(category = "C2", subcategory = "KEGG")
+write.table(gs[gs$gs_name=='KEGG_CITRATE_CYCLE_TCA_CYCLE','gene_symbol'],file='~/prj/lung/KEGG_CITRATE_CYCLE_TCA_CYCLE.csv',sep='\t',quote=F,row.names=F)

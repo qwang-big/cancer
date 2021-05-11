@@ -63,6 +63,7 @@ library(reshape2)
 library(Seurat)
 library(Signac)
 library(Matrix)
+library(ggplot2)
 fname1 = function(d,n=4) substr(d,1,nchar(d)-n)
 rna=readRDS('../../20200120_Final_1217_Neocortex.rds')
 

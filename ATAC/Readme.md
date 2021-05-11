@@ -56,6 +56,7 @@ zcat Macaca_fascicularis.Macaca_fascicularis_5.0.102.chr.gtf.gz |g protein_cod|a
 qsub -clear -cwd -l vf=5g,p=1 -binding linear:1 -q st.q -V "Neocortex_Monkey2-19.9_20200819_AY12.chr11.bed" -P P20Z10200N0059 bedt.sh 
 
 for f in *.arrow;do cat ${f%.*}.chr*.bed.ctx > ${f%.*}.mtx;done
+cat *.mtx|perl -F'\s+' -lne '$F[2]=$1 if /BC(\d+)/;print join "\t", @F[1..3]' > all.mat
 ```
 ## scATAC and scRNA-seq integration
 ```

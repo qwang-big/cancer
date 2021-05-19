@@ -38,3 +38,19 @@ a = np.asarray(im)
 d=Image.fromarray(np.clip(a+v,a_min=0,a_max=255).astype(np.uint8))
 d.save(f+".jpg")
 ```
+## background percentage
+```
+from PIL import Image
+import numpy as np
+import pandas as pd
+import sys
+
+f = sys.argv[1]
+im = Image.open(f)
+gray = im.convert('L')
+bw = gray.point(lambda x: 0 if x<220 else 1, 'F')
+arr = np.array(np.asarray(bw))
+avgBkg = np.average(bw)
+bw = gray.point(lambda x: 0 if x<220 else 1, '1')
+print('%s %.2f' % (f, avgBkg))
+```

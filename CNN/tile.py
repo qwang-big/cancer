@@ -6,6 +6,7 @@ from skimage import color
 
 f = sys.argv[1]
 v = '78,11,3,17,11,6'
+v = '69,17,-17,21,11,13'
 v = [float(x) for x in v.split(',')]
 
 img = cv2.imread(f)
@@ -42,4 +43,4 @@ for i in range(int(math.ceil(img_shape[0]/(offset[1] * 1.0)))):
     for j in range(int(math.ceil(img_shape[1]/(offset[0] * 1.0)))):
         cropped_img = img[offset[1]*i:min(offset[1]*i+tile_size[1], img_shape[0]), offset[0]*j:min(offset[0]*j+tile_size[0], img_shape[1])]
         cropped_img = normalize_tile(cropped_img, v)
-        cv2.imwrite("debug_" + str(i) + "_" + str(j) + ".jpg", cropped_img)
+        cv2.imwrite("debug_" + str(j) + "_" + str(i) + ".jpg", cropped_img)

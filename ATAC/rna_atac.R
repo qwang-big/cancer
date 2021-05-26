@@ -6,6 +6,8 @@ library(cowplot)
 library(Signac)
 
 atac <- readRDS("/hwfssz5/ST_PRECISION/TOMCAT/xuyoujia/Macaca_eye/scATAC/test/M1_panc/Save-projMonkey4/Save-ArchR-Project.rds")
+atac@sampleColData$ArrowFiles=dir("ArrowFiles")
+names(atac@sampleColData$ArrowFiles)=substr(atac@sampleColData$ArrowFiles,1,nchar(atac@sampleColData$ArrowFiles)-6)
 
 peaks <- getMatrixFromProject(atac, useMatrix='PeakMatrix')
 genescore <- getMatrixFromProject(atac, useMatrix='GeneScoreMatrix')

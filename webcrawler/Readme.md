@@ -70,3 +70,31 @@ print "$1\t$k\n"
 }
 }
 ```
+## js
+```js
+let xhr = new XMLHttpRequest();
+xhr.onreadystatechange = function(){
+    if (this.readyState == 4 && this.status == 200) {
+        console.log(this.responseText);
+    }
+};
+xhr.open("POST", url, true);
+xhr.setRequestHeader("Content-type", "application/json");
+xhr.send(JSON.stringify(d));
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+$(".download.action_down").each(async function(){
+$(this).click()
+await new Promise(r => setTimeout(r, 2000));
+})
+
+ar=[]
+$("a.btn").not('.qq, .wechat, .weibo, .kugou').each(function(){
+   ar.push($(this).attr("href"));
+})
+await new Promise(r => setTimeout(r, 2000));
+ar = ar.filter((x, i, a) => a.indexOf(x) == i)
+```

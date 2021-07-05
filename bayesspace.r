@@ -27,4 +27,5 @@ y=rownames(c2[[j]][c2[[j]]$p.value < 0.05,])
 length(intersect(x,y))/length(union(x,y))
 }))
 }))
+colnames(df)=n
 heatmap.2(as.matrix(df),Rowv=F,Colv=F,trace='none')

@@ -58,6 +58,6 @@ df=do.call(rbind,lapply(seq_len(length(c2)),function(i){
 d=data.frame(fc=-abs(c2[[i]][rownames(c2[[i]]) %in% sig,'summary.logFC']),cl=i,method='bayes')
 rbind(d,data.frame(fc=-abs(c1[[i]][rownames(c1[[i]]) %in% sig,'summary.logFC']),cl=i,method='seurat'))
 }))
-p=ggplot(df, aes(fc,color=method)) + stat_ecdf(geom = "step")+facet_wrap(~cl)+labs(x='fold change rank',y='ecdf')
+p=ggplot(df, aes(fc,color=method)) + stat_ecdf(geom = "step")+facet_wrap(~cl)+labs(title=f,x='fold change rank',y='ecdf')
 ggplot2::ggsave(p,file=paste0("/home/wangqi9/tmp/",f,'-cl.png'),width=8,height=6)
 }

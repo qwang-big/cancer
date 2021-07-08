@@ -40,7 +40,7 @@ sce <- spatialPreprocess(sce, platform="Visium", n.PCs=7, n.HVGs=2000, log.norma
 q = length(unique(seurat_spatialObj@meta.data$seurat_cluster)) - 1
 sce <- spatialCluster(sce, q=q, platform="Visium", d=7, init.method="mclust", model="t", gamma=2, nrep=nrep, burn.in=100, save.chain=TRUE)
 p3 <-SpatialDimPlot(seurat_spatialObj, label = T, label.size = 3) +DarkTheme()
-p4 <- clusterPlot(sce,label = "spatial.cluster",color=NA)+ DarkTheme()
+p4 <- clusterPlot(sce,label = "spatial.cluster",color=NA)+ DarkTheme()+scale_y_continuous(trans="reverse")
 p=cowplot::plot_grid(p3, p4)
 ggplot2::ggsave(p,file=paste0("/home/wangqi9/tmp/",f,'.png'),width=20,height=10)
 c1=scran::findMarkers(sce, seurat_spatialObj@meta.data$seurat_cluster, pval.type="all")

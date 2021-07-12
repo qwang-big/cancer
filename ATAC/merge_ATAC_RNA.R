@@ -33,7 +33,9 @@ atac <- NormalizeData(atac)
 atac <- ScaleData(atac)
 DefaultAssay(atac) <- "ATAC"
 VariableFeatures(atac) <- names(which(Matrix::rowSums(atac) > 100))
-atac <- RunLSI(atac, n = 50, scale.max = NULL)
+atac <- RunTFIDF(atac)
+atac <- FindTopFeatures(atac, min.cutoff = 'q0')
+atac <- RunSVD(atac)
 atac <- RunUMAP(atac, reduction = "lsi", dims = 2:30)
 
 

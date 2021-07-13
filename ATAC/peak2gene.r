@@ -43,7 +43,7 @@ atac <- addGeneIntegrationMatrix(
     matrixName = "GeneIntegrationMatrix",
     reducedDims = "IterativeLSI",
     seRNA = rna,
-    addToArrow = FALSE, 
-    groupList = groupList,
-    groupRNA = "subtype_SCT"
+    addToArrow = T, force = TRUE,
+    groupList = groupList,logFile='addGeneIntegrationMatrix',
+    groupRNA = "subtype_SCT",threads = 1
 )

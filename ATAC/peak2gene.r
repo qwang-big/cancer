@@ -24,6 +24,10 @@ saveRDS(atac, "Save-ArchR-Project.rds")
 rna <- readRDS("../../snRNA-seq/cortex_MTgene1.0%_UMI500_annotation.rds")
 dd = rownames(rna@meta.data)
 rna <- subset(rna, cells=dd[dd %in% x[,1]])
+dd = rownames(rna@meta.data)
+dm = x$subtype_SCT
+names(dm) = x[,1]
+rna@meta.data$subtype_SCT = dm[dd]
 x=split(x,x$subtype_SCT)
 ll=lapply(x,function(d){
     SimpleList(
@@ -41,5 +45,5 @@ atac <- addGeneIntegrationMatrix(
     seRNA = rna,
     addToArrow = FALSE, 
     groupList = groupList,
-    groupRNA = "celltype"
+    groupRNA = "subtype_SCT"
 )

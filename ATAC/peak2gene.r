@@ -41,9 +41,36 @@ atac <- addGeneIntegrationMatrix(
     ArchRProj = atac, 
     useMatrix = "GeneScoreMatrix",
     matrixName = "GeneIntegrationMatrix",
-    reducedDims = "IterativeLSI",
+    reducedDims = "IterativeLSI1",
     seRNA = rna,
     addToArrow = T, force = TRUE,
-    groupList = groupList,logFile='addGeneIntegrationMatrix',
+    groupList = NULL,logFile='/dev/null',
     groupRNA = "subtype_SCT",threads = 1
 )
+atac <- addPeak2GeneLinks(atac, reducedDims = "IterativeLSI1")
+p2g <- getPeak2GeneLinks(
+    ArchRProj = atac,
+    corCutOff = 0.45,
+    resolution = 1e4,
+    returnLoops = T
+)
+markerGenes <- c('L3MBTL2','TOB2')
+p <- plotBrowserTrack(
+    ArchRProj = atac, 
+    groupBy = "age_group", 
+    geneSymbol = markerGenes, 
+    upstream = 50000,
+    downstream = 50000,
+    loops = p2g
+)
+for(f in markerGenes){
+png(paste0('~/b/pic/',f,'.png'),width=800,height=800)
+grid::grid.newpage()
+grid::grid.draw(p[[f]])
+dev.off()
+}
+pk = mat[['Peak2GeneLinks']][mat[['ATAC']][['kmeansId']]==17,]
+gr = read.table(text=gsub(':','-',pk$peak), sep='-', , col.names=c("chr", "start", "end"))
+gr$gene = pk$gene
+gr = makeGRangesFromDataFrame(gr, keep.extra.columns=TRUE)
+table(queryHits(findOverlaps(gr, p2g[[1]])))

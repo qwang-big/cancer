@@ -5,9 +5,7 @@ atac <- readRDS("Save-ArchR-Project.rds")
 atac@sampleColData$ArrowFiles=dir("ArrowFiles")
 atac@sampleColData$ArrowFiles=paste0('ArrowFiles/',atac@sampleColData$ArrowFiles)
 names(atac@sampleColData$ArrowFiles)=substr(atac@sampleColData$ArrowFiles,1,nchar(atac@sampleColData$ArrowFiles)-6)
-s="/hwfssz1-tmp/ST_PRECISION/USER/wangqi/mk_brain/snATAC-seq/snATAC_cortex_TSS5_Frag1000/ArrowFiles/"
-ff=dir(s)
-cells <- unlist(lapply(ff,function(f) paste0(substr(f,1,nchar(f)-6),'#',h5read(paste0(s,f), "Metadata/CellNames"))))
+cells <- unlist(lapply(atac@sampleColData$ArrowFiles,function(f) paste0(substr(f,1,nchar(f)-6),'#',h5read(f, "Metadata/CellNames"))))
 ac=getCellNames(atac)
 x=read.csv('~/b/cortex_merge_meta.csv')
 x=x[x[,1] %in% cells,]

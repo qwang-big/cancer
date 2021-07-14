@@ -32,5 +32,5 @@ rna <- readRDS("../../../snRNA-seq/cortex_MTgene1.0%_UMI500_annotation.rds")
 x=read.csv('~/b/cortex_merge_meta.csv')
 dd = rownames(rna@meta.data)
 f='Astro_1'
-r <- subset(r, cells=dd[dd %in% x[x$subtype_SCT==f,1]])
+r <- subset(rna, cells=dd[dd %in% x[x$subtype_SCT==f,1]])
 saveRDS(r, paste0(f,'/seurat.rds'))

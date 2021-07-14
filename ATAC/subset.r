@@ -4,10 +4,10 @@ atac <- readRDS("Save-ArchR-Project.rds")
 atac@sampleColData$ArrowFiles=dir("ArrowFiles")
 atac@sampleColData$ArrowFiles=paste0('ArrowFiles/',atac@sampleColData$ArrowFiles)
 names(atac@sampleColData$ArrowFiles)=substr(atac@sampleColData$ArrowFiles,1,nchar(atac@sampleColData$ArrowFiles)-6)
-cells <- unlist(lapply(atac@sampleColData$ArrowFiles,function(f) paste0(substr(f,1,nchar(f)-6),'#',h5read(f, "Metadata/CellNames"))))
+#cells <- unlist(lapply(atac@sampleColData$ArrowFiles,function(f) paste0(substr(f,1,nchar(f)-6),'#',h5read(f, "Metadata/CellNames"))))
 ac=getCellNames(atac)
 x=read.csv('~/b/cortex_merge_meta.csv')
-x=x[x[,1] %in% basename(cells),]
+x=x[x[,1] %in% ac,]
 ff=table(x$subtype_SCT)
 ff=names(ff)[ff>100]
 f="Astro_1"

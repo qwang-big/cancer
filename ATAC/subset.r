@@ -4,6 +4,7 @@ atac <- readRDS("Save-ArchR-Project.rds")
 ff=dir("ArrowFiles")
 atac@sampleColData <- DataFrame(row.names = substr(ff,1,nchar(ff)-6), ArrowFiles = paste0('ArrowFiles/',ff))
 #cells <- unlist(lapply(atac@sampleColData$ArrowFiles,function(f) paste0(substr(f,1,nchar(f)-6),'#',h5read(f, "Metadata/CellNames"))))
+#x=x[x[,1] %in% basename(cells),]
 ac=getCellNames(atac)
 x=read.csv('~/b/cortex_merge_meta.csv')
 x=x[x[,1] %in% ac,]

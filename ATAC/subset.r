@@ -27,3 +27,10 @@ atac1 = subsetArchRProject(
 )
 saveRDS(atac1, paste0(f,"/Save-ArchR-Project.rds"))
 }
+library(Seurat)
+rna <- readRDS("../../../snRNA-seq/cortex_MTgene1.0%_UMI500_annotation.rds")
+x=read.csv('~/b/cortex_merge_meta.csv')
+dd = rownames(rna@meta.data)
+f='Astro_1'
+r <- subset(r, cells=dd[dd %in% x[x$subtype_SCT==f,1]])
+saveRDS(r, paste0(f,'/seurat.rds'))

@@ -53,7 +53,11 @@ p2g <- getPeak2GeneLinks(
     resolution = 1e4,
     returnLoops = T
 )
-markerGenes <- c('L3MBTL2','TOB2')
+mat = plotPeak2GeneHeatmap(atac, groupBy = "age_group", returnMatrices=T)
+png(paste0('~/b/pic/Astro_1.png'))
+plotPeak2GeneHeatmap(atac, groupBy = "age_group")
+dev.off()
+markerGenes <- mat[['Peak2GeneLinks']][mat[['ATAC']][['kmeansId']]==17,'gene']
 p <- plotBrowserTrack(
     ArchRProj = atac, 
     groupBy = "age_group", 

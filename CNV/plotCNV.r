@@ -13,7 +13,7 @@ cnv_obj=readRDS(paste0('../',s))
 cl = cutree(cnv_obj$cluster$hclust, k=n)
 unique(unlist(lapply(seq(1,max(cl)),function(i) {
 tb=cl[cl==i]
-if (lw(cnv_obj$reference_obs %in% names(tb)) <50 && length(tb)>100){
+if (lw(cnv_obj$reference_obs %in% names(tb)) <50 & length(tb)>100){
 return(names(tb))}else{return(c())}
 })))
 }))

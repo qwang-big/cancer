@@ -8,3 +8,13 @@ atac@sampleColData <- DataFrame(row.names = substr(ff,1,nchar(ff)-6), ArrowFiles
 seqlevels(atac@peakSet)<- sub('chr','MFA',seqlevels(atac@peakSet))
 atac=addMotifAnnotations(ArchRProj = atac, motifSet = "JASPAR2020", name = "Motif")
 saveRDS(atac, "Save-ArchR-Project.rds")
+#change seqnames back
+seqlevels(atac@peakSet)<- sub('MFA','chr',seqlevels(atac@peakSet))
+x=readRDS("Annotations/Motif-Positions-In-Peaks.rds")
+seqlevels(x)<- sub('MFA','chr',seqlevels(x))
+saveRDS(x, file="Annotations/Motif-Positions-In-Peaks.rds")
+x=readRDS("Annotations/Motif-Matches-In-Peaks.rds")
+seqlevels(x)<- sub('MFA','chr',seqlevels(x))
+saveRDS(x, file="Annotations/Motif-Matches-In-Peaks.rds")
+#write motif matrix to arrow files
+atac <- addBgdPeaks(atac)

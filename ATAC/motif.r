@@ -18,3 +18,4 @@ seqlevels(x)<- sub('MFA','chr',seqlevels(x))
 saveRDS(x, file="Annotations/Motif-Matches-In-Peaks.rds")
 #write motif matrix to arrow files
 atac <- addBgdPeaks(atac)
+atac@cellColData$age_group=as.character(atac@cellColData$age_group)

@@ -13,7 +13,7 @@ cnv_obj=readRDS(paste0('../',s))
 cl = cutree(cnv_obj$cluster$hclust, k=n)
 unique(unlist(lapply(seq(1,max(cl)),function(i) {
 tb=cl[cl==i]
-if (lw(cnv_obj$reference_obs %in% names(tb)) <50 & length(tb)>100){
+if (lw(cnv_obj$reference_obs %in% names(tb)) <100 & length(tb)>1000){
 return(names(tb))}else{return(c())}
 })))
 }))
@@ -24,8 +24,8 @@ Tumor = Tumor[gsub('_.*','',Tumor) == 'Tumor']
 print(length(Tumor))
 seurat_spatialObj@meta.data$cnv='low'
 seurat_spatialObj@meta.data[gsub('.*_','',Tumor),]$cnv='high'
-png(paste0('~/b/pic/cnv/',gsub('rda','vs',d[1,2]),'.png'))
 p=SpatialDimPlot(seurat_spatialObj,group.by = 'cnv',pt.size.factor = 2.5)
+png(paste0('~/b/pic/cnv/',gsub('rda','vs',d[1,2]),'.png'), width=10*max(abs(p$data$imagerow)), height=10*max(abs(p$data$imagecol)))
 print(p)
 dev.off()}, error=function(e){})
 })

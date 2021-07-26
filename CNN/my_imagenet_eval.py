@@ -42,7 +42,7 @@ tf.app.flags.DEFINE_integer('num_preprocess_threads', 4, '')
 tf.app.flags.DEFINE_integer('num_readers', 4, '')
 tf.app.flags.DEFINE_integer('num_examples', 1, '')
 tf.app.flags.DEFINE_boolean('run_once', True, '')
-
+tf.app.flags.DEFINE_boolean('nbr_of_classes', False, '')
 
 dataset = ImagenetData(subset=FLAGS.subset)
 dataset.data_files = lambda: tf.gfile.Glob(os.path.join(path, '*.TFRecord'))

@@ -16,8 +16,9 @@ saveRDS(x, file="Annotations/Motif-Positions-In-Peaks.rds")
 x=readRDS("Annotations/Motif-Matches-In-Peaks.rds")
 seqlevels(x)<- sub('MFA','chr',seqlevels(x))
 saveRDS(x, file="Annotations/Motif-Matches-In-Peaks.rds")
-#compute 
+#compute DeviationsMatrix
 atac <- addBgdPeaks(atac)
+atac <- addDeviationsMatrix(atac, peakAnnotation = "Motif", force = TRUE)
 atac@cellColData$age_group=as.character(atac@cellColData$age_group)
 motifs <- c("SNAI1", "ZEB1", "TCF4", "ASCL1", "MYOD1", "Nr2f6")
 x=readRDS('Annotations/Motif-Positions-In-Peaks.rds')

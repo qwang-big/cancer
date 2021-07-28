@@ -1,18 +1,15 @@
 library(Seurat)
-library(ggplot2)
-library(patchwork)
 library(ArchR)
-library(cowplot)
-library(Signac)
 setwd("snATAC-seq/snATAC_cortex_TSS5_Frag1000/")
 atac <- readRDS("Save-ArchR-Project.rds")
 ff=dir("ArrowFiles")
 atac@sampleColData <- DataFrame(row.names = substr(ff,1,nchar(ff)-6), ArrowFiles = paste0('ArrowFiles/',ff))
 x=read.csv('~/b/cortex_merge_meta.csv')
 ac=atac$cellNames
+f='Astro_1'
 atac = subsetArchRProject(
   ArchRProj = atac,
-  cells = ac[ac %in% x[,1]],
+  cells = ac[ac %in% x[$subtype_SCT==f,1]],
   outputDirectory = "ArchRSubset",
   dropCells = TRUE,
   logFile = NULL,
@@ -22,7 +19,9 @@ atac = subsetArchRProject(
 saveRDS(atac, "Save-ArchR-Project.rds")
 rna <- readRDS("../../snRNA-seq/cortex_MTgene1.0%_UMI500_annotation.rds")
 dd = rownames(rna@meta.data)
-rna <- subset(rna, cells=dd[dd %in% x[,1]])
+rna <- subset(rna, cells=dd[dd %in% x[x$subtype_SCT==f,1]])
+rna@meta.data$subtype_SCT=f
+
 dd = rownames(rna@meta.data)
 dm = x$subtype_SCT
 names(dm) = x[,1]

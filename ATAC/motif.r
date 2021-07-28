@@ -23,6 +23,7 @@ atac@cellColData$age_group=as.character(atac@cellColData$age_group)
 motifs <- c("SNAI1", "ZEB1", "TCF4", "ASCL1", "MYOD1", "Nr2f6")
 x=readRDS('Annotations/Motif-Positions-In-Peaks.rds')
 x=x[names(x)[unlist(lapply(motifs,function(d) grep(d,names(x))))]]
+p2g <- metadata(atac@peakSet)$Peak2GeneLinks
 p=metadata(p2g)$peakSet[p2g$idxATAC]
 g=metadata(p2g)$geneSet[p2g$idxRNA]
 df=do.call(rbind,lapply(seq_along(x),function(i) data.frame(names(x)[i],g[queryHits(findOverlaps(p,x[[i]]))]$name)))

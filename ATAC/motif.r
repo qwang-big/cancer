@@ -23,8 +23,20 @@ atac@cellColData$age_group=as.character(atac@cellColData$age_group)
 motifs <- c("SNAI1", "ZEB1", "TCF4", "ASCL1", "MYOD1", "Nr2f6")
 x=readRDS('Annotations/Motif-Positions-In-Peaks.rds')
 x=x[names(x)[unlist(lapply(motifs,function(d) grep(d,names(x))))]]
+## export to network
 p2g <- metadata(atac@peakSet)$Peak2GeneLinks
 p=metadata(p2g)$peakSet[p2g$idxATAC]
 g=metadata(p2g)$geneSet[p2g$idxRNA]
 df=do.call(rbind,lapply(seq_along(x),function(i) data.frame(names(x)[i],g[queryHits(findOverlaps(p,x[[i]]))]$name)))
 write.table(df,file='~/b/df.sif',sep='\t-\t',row.names=F,col.names=F,quote=F)
+## correlate to GA 
+gm <- getMatrixFromProject(atac, useMatrix='GeneScoreMatrix')
+gsm <- assays(gm)$GeneScoreMatrix
+rownames(gsm) <- rowData(gm)$name
+d=table(g)
+r=rowMeans(gsm[names(d),])
+df=data.frame(x=r,y=as.integer(d))
+df=df[df$x>0,]
+m=lm(y~x,df)
+p=ggplot(df,aes(x,y))+geom_point(size=3,shape=20)+scale_x_continuous(limits=c(0,10))+labs(x='Gene activity',y='Number of enhancers')+geom_abline(slope = coef(m)[[1]], intercept = coef(m)[[2]],color='red')+ annotate(geom="text", label=paste0('r=',round(cor(df$x,df$y),2)), x=8, y=500, size=8, color='red')
+

@@ -22,7 +22,9 @@ for(i in 1:4) x=rbind(x,data.frame(V1=unique(x$V1),V2=i,V3=1,V4='N'))
 p=ggplot(x,aes(V2,V1,fill=V3))+geom_tile()+facet_wrap(~V4,scales='free_x')+scale_fill_gradient2(name='p-value',low='red',high='white',mid='white',midpoint=0.5) + labs(x='Patient',y='')+theme(axis.text.x=element_blank())
 ggsave(p,filename='pathways.pdf')
 ```
-##job
+## job
 ```
-qsub -clear -cwd -l vf=10g,p=1 -binding linear:1 -q st.q -P P20Z10200N0059
+ls -1 *.rda|perl -ne 'chomp;push @a,$_;END{for $i(1..22){for $j(0..5){ $x=$a[$j];$y=$a[$j+1];open(O,">s".(++$k).".sh");print O "/hwfssz5/ST_PRECISION/OCG/wangqi/miniconda3/envs/r4/bin/Rscript run.r $x $y $i\n";close O}}}'
+
+qsub s${i}.sh -clear -cwd -l vf=10g,p=1 -binding linear:1 -q st.q -P P20Z10200N0059
 ```

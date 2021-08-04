@@ -18,6 +18,13 @@ motifsUp <- peakAnnoEnrichment(
     peakAnnotation = "Motif",
     cutOff = "FDR <= 0.1 & Log2FC >= 0.5"
   )
+df=cbind(d1,d2[rownames(d1),],d3[rownames(d1),])
+dd=df[apply(df[,c(3,6,9)],1,function(d) any(d<=10)),]
+rownames(dd)=str_match(dd[,1],"^[A-Za-z0-9]+")
+dd=as.matrix(dd[,c(2,5,8)])
+colnames(dd)=c('Young','Middle','Old')
+heatmap.2(dd,Colv=F,density.info='none',col=colorpanel(10,'black','red'), srtCol=45)
+
 x=readRDS("Annotations/Motif-Matches-In-Peaks.rds")
 seqlevels(x)<- sub('chr','MFA',seqlevels(x))
 motifs <- TFBSTools::getMatrixSet(JASPAR2020::JASPAR2020, list(species=NULL, collection="CORE"))

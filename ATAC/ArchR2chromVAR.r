@@ -30,4 +30,4 @@ seqlevels(x)<- sub('chr','MFA',seqlevels(x))
 motifs <- TFBSTools::getMatrixSet(JASPAR2020::JASPAR2020, list(species=NULL, collection="CORE"))
 genome = BSgenome.Mfascicularis.NCBI.5.0::BSgenome.Mfascicularis.NCBI.5.0
 dd=unlist(lapply(motifs,TFBSTools::name))
-motif_ix <- matchMotifs(motifs, x, genome)
+motif_ix <- motifmatchr::matchMotifs(motifs[dd %in% tf], x, genome)

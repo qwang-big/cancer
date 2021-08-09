@@ -28,3 +28,8 @@ ls -1 *.rda|perl -ne 'chomp;push @a,$_;END{for $i(1..22){for $j(0..5){ $x=$a[$j]
 
 qsub s${i}.sh -clear -cwd -l vf=10g,p=1 -binding linear:1 -q st.q -P P20Z10200N0059
 ```
+
+## velocyto preprocess
+```
+sv -h test.bam |perl -ne 'if(/^@/){print}else{@t=split(/\t/);@d=split(/:|_/,$t[15]);$d[2]=int($d[2]/20);$d[3]=int($d[3]/20);$t[15]="CB:Z:$d[2]_$d[3]";$t[16]=~s/^UR/UB/;print join "\t",@t}'|sv -bS > tt.bam
+```

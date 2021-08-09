@@ -31,5 +31,6 @@ qsub s${i}.sh -clear -cwd -l vf=10g,p=1 -binding linear:1 -q st.q -P P20Z10200N0
 
 ## velocyto preprocess
 ```
+ls -1 *.bam|perl -ne 'chomp;open(O,">s".(++$i).".sh");print O "samtools view -h $_|perl addCB.pl|samtools view -bS > ../w/$_\n";close O'
 sv -h test.bam |perl -ne 'if(/^@/){print}else{@t=split(/\t/);@d=split(/:|_/,$t[15]);$d[2]=int($d[2]/20);$d[3]=int($d[3]/20);$t[15]="CB:Z:$d[2]_$d[3]";$t[16]=~s/^UR/UB/;print join "\t",@t}'|sv -bS > tt.bam
 ```

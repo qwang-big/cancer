@@ -172,7 +172,7 @@ addGroupCoverages1=function (ArchRProj = NULL, groupBy = "Clusters", useLabels =
     h5enableFileLocking()
     ArchR:::.logDiffTime(sprintf("Finished Creation of Coverage Files!"), 
         tstart, addHeader = FALSE)
-    .endLogging(logFile = logFile)
+    ArchR:::.endLogging(logFile = logFile)
     ArchRProj
 }
 addKmerBiasToCoverage=function (coverageMetadata = NULL, genome, kmerLength = NULL, 
@@ -201,7 +201,7 @@ addKmerBiasToCoverage=function (coverageMetadata = NULL, genome, kmerLength = NU
             ArchR:::.logMessage(sprintf("Coverage File %s (%s of %s)", 
                 availableChr[x], y, length(coverageFiles)), logFile = logFile)
             tryCatch({
-                obsx <- .getCoverageInsertionSites(coverageFiles[y], 
+                obsx <- ArchR:::.getCoverageInsertionSites(coverageFiles[y], 
                   availableChr[x]) %>% {
                   BSgenome::Views(chrBS, IRanges(start = . - 
                     floor(kmerLength/2), width = kmerLength))

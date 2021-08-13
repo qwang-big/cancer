@@ -182,7 +182,7 @@ addKmerBiasToCoverage=function (coverageMetadata = NULL, genome, kmerLength = NU
         "kmerBias-Parameters", logFile = logFile)
     ArchR:::.requirePackage("Biostrings", source = "bioc")
     #.requirePackage(genome)
-    .requirePackage("Biostrings", source = "bioc")
+    ArchR:::.requirePackage("Biostrings", source = "bioc")
     BSgenome <- eval(parse(text = genome))
     BSgenome <- validBSgenome(BSgenome)
     if (is.null(tstart)) {

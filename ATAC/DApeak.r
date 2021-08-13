@@ -38,5 +38,21 @@ markersPeaks <- getMarkerFeatures(
 markerList <- getMarkers(markersPeaks, cutOff = "FDR <= 0.05 & Log2FC >= 1")
 for(i in 1:4)
 write.table(markerList[[i]],file=paste0(d,'/',i,'.bed'),sep='\t',quote=F,col.names=F)
-
+}
+for (d in dd) {
+setwd(paste0('../',d))
+atac <- readRDS("Save-ArchR-Project.rds")
+ff=dir("ArrowFiles")
+atac@sampleColData <- DataFrame(row.names = substr(ff,1,nchar(ff)-6), ArrowFiles = paste0('ArrowFiles/',ff))
+atac@cellColData$age_group=as.factor(atac@cellColData$age_group)
+markersPeaks <- getMarkerFeatures(
+    ArchRProj = atac, 
+    useMatrix = "PeakMatrix", 
+    groupBy = "age_group",
+  bias = c("TSSEnrichment", "log10(nFrags)"),
+  testMethod = "wilcoxon"
+)
+markerList <- getMarkers(markersPeaks, cutOff = "FDR <= 0.05 & Log2FC >= 1")
+for(i in 1:4)
+write.table(markerList[[i]],file=paste0(i,'.bed'),sep='\t',quote=F,col.names=F)
 }

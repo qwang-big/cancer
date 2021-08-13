@@ -6,7 +6,7 @@ atac@sampleColData <- DataFrame(row.names = substr(ff,1,nchar(ff)-6), ArrowFiles
 dd=unique(atac@cellColData$celltype)
 rownames(atac@cellColData)=substr(rownames(atac@cellColData),23,nchar(rownames(atac@cellColData)))
 atac <- addGroupCoverages(ArchRProj = atac, groupBy = "age_group")
-getOutputDirectory(atac)='./tmp'
+atac@projectMetadata$outputDirectory='./tmp'
 for (d in dd[-1]) {
 atac <- readRDS("Save-ArchR-Project.rds")
 atac@cellColData$celltype=x[rownames(atac@cellColData),'merge_subtype_SCT']

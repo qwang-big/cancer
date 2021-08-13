@@ -191,7 +191,7 @@ addKmerBiasToCoverage=function (coverageMetadata = NULL, genome, kmerLength = NU
     coverageFiles <- coverageMetadata$File
     names(coverageFiles) <- coverageMetadata$Name
     availableChr <- ArchR:::.availableSeqnames(coverageFiles, "Coverage")
-    biasList <- .safelapply(seq_along(availableChr), function(x) {
+    biasList <- ArchR:::.safelapply(seq_along(availableChr), function(x) {
         ArchR:::.logMessage(sprintf("Kmer Bias %s (%s of %s)", availableChr[x], 
             x, length(availableChr)), logFile = logFile)
         message(availableChr[x], " ", appendLF = FALSE)

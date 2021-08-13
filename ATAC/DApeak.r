@@ -4,7 +4,7 @@ atac@cellColData$celltype=x[rownames(atac@cellColData),'merge_subtype_SCT']
 ff=dir("ArrowFiles")
 atac@sampleColData <- DataFrame(row.names = substr(ff,1,nchar(ff)-6), ArrowFiles = paste0('ArrowFiles/',ff))
 dd=unique(atac@cellColData$celltype)
-rownames(atac@cellColData)=substr(rownames(atac@cellColData),23,nchar(rownames(atac@cellColData)))
+rownames(atac@cellColData)=substr(rownames(atac@cellColData),str_locate(rownames(atac@cellColData),'#')[,1]+1,nchar(rownames(atac@cellColData)))
 atac@projectMetadata$outputDirectory='./tmp'
 atac <- addGroupCoverages(ArchRProj = atac, groupBy = "age_group")
 atac <- addReproduciblePeakSet(

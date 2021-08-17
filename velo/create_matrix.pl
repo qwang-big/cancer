@@ -31,7 +31,7 @@ $f=substr($f,0,16);
 make_path("$f/outs/filtered_feature_bc_matrix");
 open(O, '>:gzip', "$f/outs/filtered_feature_bc_matrix/features.tsv.gz");
 foreach (sort {$hg{$a} <=> $hg{$b}} keys %hg){
-print O "$_ $_ Gene Expression\n"
+print O "$_\t$_\tGene Expression\n"
 }
 close O;
 open(O, '>:gzip', "$f/outs/filtered_feature_bc_matrix/barcodes.tsv.gz");

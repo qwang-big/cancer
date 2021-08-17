@@ -3,6 +3,8 @@ $f=shift;
 $i=0;
 $j=0;
 $k=0;
+use PerlIO::gzip;
+use File::Path qw(make_path);
 open(F,"<$f.in");
 while(<F>){chomp;
 @t=split(/\t/);
@@ -25,19 +27,21 @@ $hg{$t[1]} = ++$j unless defined $hg{$t[1]};
 $h2{"$x_$y"}->{$t[1]}+=1;
 }
 close F;
-open(O,">features.tsv");
+$f=substr($f,0,16);
+make_path("$f/outs/filtered_feature_bc_matrix");
+open(O, '>:gzip', "$f/outs/filtered_feature_bc_matrix/features.tsv.gz");
 foreach (sort {$hg{$a} <=> $hg{$b}} keys %hg){
-print O "$_\t$_\tGene Expression\n"
+print O "$_ $_ Gene Expression\n"
 }
 close O;
-open(O,">barcodes.tsv");
+open(O, '>:gzip', "$f/outs/filtered_feature_bc_matrix/barcodes.tsv.gz");
 foreach (sort {$hc{$a} <=> $hc{$b}} keys %hc){
 print O $_,"\n"
 }
 close O;
 $s='';
-open(O1,">spliced.mtx");
-open(O2,">unspliced.mtx");
+open(O1, '>:gzip', "$f/outs/filtered_feature_bc_matrix/spliced.mtx.gz");
+open(O2, '>:gzip', "$f/outs/filtered_feature_bc_matrix/unspliced.mtx.gz");
 foreach $cell(sort {$hc{$a} <=> $hc{$b}} keys %hc){
 $i=$hc{$cell};
 foreach $gene(sort {$hg{$a} <=> $hg{$b}} keys %hg){
@@ -45,16 +49,17 @@ $j=$hg{$gene};
 $n=0;
 $n+= $h1{$cell}->{$gene} if defined $h1{$cell}->{$gene};
 $n+= $h2{$cell}->{$gene} if defined $h2{$cell}->{$gene};
-$k=$n if $k<$n;
-$s.= "$j\t$i\t$n\n";
-print O1 "$j\t$i\t",$h1{$cell}->{$gene},"\n" if defined $h1{$cell}->{$gene};
-print O2 "$j\t$i\t",$h2{$cell}->{$gene},"\n" if defined $h2{$cell}->{$gene};
+next if $n==0;
+$k++;
+$s.= "$j $i $n\n";
+print O1 "$j $i ",$h1{$cell}->{$gene},"\n" if defined $h1{$cell}->{$gene};
+print O2 "$j $i ",$h2{$cell}->{$gene},"\n" if defined $h2{$cell}->{$gene};
 }
 }
 close O1;
 close O2;
-open(O,">matrix.mtx");
+open(O, '>:gzip', "$f/outs/filtered_feature_bc_matrix/matrix.mtx.gz");
 print O '%%MatrixMarket matrix coordinate integer general
 %metadata_json: {"software_version": "cellranger-4.0.0", "format_version": 2}
-',"$j\t$i\t$k\n",$s;
+',"$j $i $k\n",$s;
 close O;

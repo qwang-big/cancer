@@ -3,6 +3,7 @@ $f=shift;
 $i=0;
 $j=0;
 $k=0;
+$sk=0;
 use PerlIO::gzip;
 use File::Path qw(make_path);
 open(F,"<$f.in");
@@ -40,8 +41,7 @@ print O $_,"\n"
 }
 close O;
 $s='';
-open(O1, '>:gzip', "$f/outs/filtered_feature_bc_matrix/spliced.mtx.gz");
-open(O2, '>:gzip', "$f/outs/filtered_feature_bc_matrix/unspliced.mtx.gz");
+$ss='';
 foreach $cell(sort {$hc{$a} <=> $hc{$b}} keys %hc){
 $i=$hc{$cell};
 foreach $gene(sort {$hg{$a} <=> $hg{$b}} keys %hg){
@@ -51,9 +51,9 @@ $n+= $h1{$cell}->{$gene} if defined $h1{$cell}->{$gene};
 $n+= $h2{$cell}->{$gene} if defined $h2{$cell}->{$gene};
 next if $n==0;
 $k++;
-$s.= "$j $i $n\n";
-print O1 "$j $i ",$h1{$cell}->{$gene},"\n" if defined $h1{$cell}->{$gene};
-print O2 "$j $i ",$h2{$cell}->{$gene},"\n" if defined $h2{$cell}->{$gene};
+$s .= "$j $i $n\n";
+$ss.= "$j $i $n\n" if defined $h2{$cell}->{$gene};
+$sk++ if defined $h2{$cell}->{$gene};
 }
 }
 close O1;
@@ -62,4 +62,9 @@ open(O, '>:gzip', "$f/outs/filtered_feature_bc_matrix/matrix.mtx.gz");
 print O '%%MatrixMarket matrix coordinate integer general
 %metadata_json: {"software_version": "cellranger-4.0.0", "format_version": 2}
 ',"$j $i $k\n",$s;
+close O;
+open(O, '>:gzip', "$f/outs/filtered_feature_bc_matrix/spliced.mtx.gz");
+print O '%%MatrixMarket matrix coordinate integer general
+%metadata_json: {"software_version": "cellranger-4.0.0", "format_version": 2}
+',"$j $i $sk\n",$ss;
 close O;

@@ -10,7 +10,7 @@ library(BSgenome.Mfascicularis.NCBI.5.0)
 seqlevels(BSgenome.Mfascicularis.NCBI.5.0) = sub('MFA','chr',seqlevels(BSgenome.Mfascicularis.NCBI.5.0))
 atac <- addGroupCoverages(ArchRProj = atac, groupBy = "age_group")
 atac <- addReproduciblePeakSet(
-  ArchRProj = atac, groupBy = 'age_group', peakMethod = 'Macs2',
+  ArchRProj = atac, groupBy = 'age_group', peakMethod = 'Macs2', genomeSize=2.85e9,
   pathToMacs2 = '/hwfssz5/ST_PRECISION/OCG/wangqi/miniconda3/envs/py36/bin/macs2'
 )
 for (d in dd[-1]) {

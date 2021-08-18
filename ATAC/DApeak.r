@@ -6,6 +6,7 @@ atac@sampleColData <- DataFrame(row.names = substr(ff,1,nchar(ff)-6), ArrowFiles
 dd=unique(atac@cellColData$celltype)
 atac@cellColData$age_group=as.character(atac@cellColData$age_group)
 atac@projectMetadata$outputDirectory='./tmp'
+dir.create('./tmp')
 library(BSgenome.Mfascicularis.NCBI.5.0)
 seqlevels(BSgenome.Mfascicularis.NCBI.5.0) = sub('MFA','chr',seqlevels(BSgenome.Mfascicularis.NCBI.5.0))
 atac <- addGroupCoverages(ArchRProj = atac, groupBy = "age_group")

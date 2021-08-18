@@ -1,4 +1,4 @@
-$b=20;
+$b=50;
 $f=shift;
 $i=0;
 $j=0;
@@ -12,9 +12,9 @@ while(<F>){chomp;
 @d=split(/_/,$t[0]);
 $x=int($d[0]/$b);
 $y=int($d[1]/$b);
-$hc{"$x_$y"}=++$i unless defined $hc{"$x_$y"};
+$hc{"$x\_$y"}=++$i unless defined $hc{"$x\_$y"};
 $hg{$t[1]} = ++$j unless defined $hg{$t[1]};
-$h1{"$x_$y"}->{$t[1]}+=1;
+$h1{"$x\_$y"}->{$t[1]}+=1;
 }
 close F;
 open(F,"<$f.ex");
@@ -23,9 +23,9 @@ while(<F>){chomp;
 @d=split(/_/,$t[0]);
 $x=int($d[0]/$b);
 $y=int($d[1]/$b);
-$hc{"$x_$y"}=++$i unless defined $hc{"$x_$y"};
+$hc{"$x\_$y"}=++$i unless defined $hc{"$x\_$y"};
 $hg{$t[1]} = ++$j unless defined $hg{$t[1]};
-$h2{"$x_$y"}->{$t[1]}+=1;
+$h2{"$x\_$y"}->{$t[1]}+=1;
 }
 close F;
 $f=substr($f,0,16);

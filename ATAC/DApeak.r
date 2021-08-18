@@ -34,10 +34,9 @@ markersPeaks <- getMarkerFeatures(
     useMatrix = "PeakMatrix", 
     groupBy = "age_group",
   bias = c("TSSEnrichment", "log10(nFrags)"),
-  testMethod = "wilcoxon"
+  normBy='nFrags', testMethod = "wilcoxon"
 )
-
-markerList <- getMarkers(markersPeaks, cutOff = "FDR <= 0.05 & Log2FC >= 1")
+markerList <- getMarkers(markersPeaks, cutOff = "FDR <= 0.01 & Log2FC >= 1.5")
 for(i in 1:4)
 write.table(markerList[[i]],file=paste0(d,'/',i,'.bed'),sep='\t',quote=F,col.names=F)
 }

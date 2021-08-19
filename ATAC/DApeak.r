@@ -14,6 +14,7 @@ atac <- addReproduciblePeakSet(
   ArchRProj = atac, groupBy = 'age_group', peakMethod = 'Macs2', genomeSize=2.85e9,
   pathToMacs2 = '/hwfssz5/ST_PRECISION/OCG/wangqi/miniconda3/envs/py36/bin/macs2'
 )
+atac=addPeakMatrix(atac)
 for (d in dd[-1]) {
 atac <- readRDS("Save-ArchR-Project.rds")
 atac@cellColData$celltype=x[rownames(atac@cellColData),'merge_subtype_SCT']

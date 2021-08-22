@@ -1,0 +1,6 @@
+require(EBImage)
+im = readImage('/home/wangqi9/Pictures/newplot.png')
+im = channel(im,"gray")
+im = medianFilter(im, size=7)
+thr <- im > otsu(im)
+writeImage(thr,file='/home/wangqi9/Pictures/ddd.jpg')

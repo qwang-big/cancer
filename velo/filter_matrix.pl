@@ -19,7 +19,7 @@ $i++;
 if (defined $p{$_}){
 $j++;
 $hb{$i}=$j;
-print O $_;
+print O $_,"\n";
 }
 }
 close F;
@@ -30,14 +30,32 @@ open(F, "<:gzip", $f.'.mtx.gz')||die"$!";
 while(<F>){
 @t=split(/ /);
 $i=$t[0] if $i<$t[0];
-$j=$t[1] if $j<$t[1];
 if (defined $hb{$t[1]}){
 $s.="$t[0] ".$hb{$t[1]}." $t[2]";
+$j = $hb{$t[1]} if $j<$hb{$t[1]};
 $k++
 }
 }
 close F;
 open(O, ">:gzip", $h{$f}.'/matrix.mtx.gz');
+print O '%%MatrixMarket matrix coordinate integer general
+%metadata_json: {"software_version": "cellranger-4.0.0", "format_version": 2}
+',"$i $j $k\n",$s;
+close O;
+$s='';$i=0;$j=0;$k=0;
+open(O, ">:gzip", $h{$f}.'/spliced.mtx.gz');
+<F>;<F>;
+while(<F>){
+@t=split(/ /);
+$i=$t[0] if $i<$t[0];
+if (defined $hb{$t[1]}){
+$s.="$t[0] ".$hb{$t[1]}." $t[2]";
+$j = $hb{$t[1]} if $j<$hb{$t[1]};
+$k++
+}
+}
+close F;
+open(O, ">:gzip", $h{$f}.'/spliced1.mtx.gz');
 print O '%%MatrixMarket matrix coordinate integer general
 %metadata_json: {"software_version": "cellranger-4.0.0", "format_version": 2}
 ',"$i $j $k\n",$s;

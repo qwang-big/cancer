@@ -4,14 +4,20 @@ $h{$f}=$_ if /^\d+/;
 $f=$_
 }
 foreach $f(keys %h){
-$s='';
-open(F, "<:gzip", $f);
-while(<F>){
-@t=split(/ /);
-$s.=$_ if defined $h{$f} and $h{$f} eq $t[0]
+$s='';$i=1;
+open(F, "<:gzip", $f.'barcodes.tsv.gz');
+while(<F>){chomp;
+s/_/ /;
+$hi{$i++}=$_
 }
 close F;
-open(O, '>:gzip', $f.'.1');
+open(F, "<:gzip", $f.'matrix.mtx.gz');
+while(<F>){
+@t=split(/ /);
+$s.="$hi{$t[1]}\t$t[2]" if defined $h{$f} and $h{$f} eq $t[0]
+}
+close F;
+open(O, '>:gzip', $f.'matrix1.mtx.gz');
 print O $s;
 close O;
 }

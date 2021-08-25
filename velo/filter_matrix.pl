@@ -3,7 +3,7 @@ while(<DATA>){chomp;
 $h{$1}=$_ if /\/(\S+)\/outs/
 }
 foreach $f(keys %h){
-$s='';$i=0;%p=();
+$s='';$i=0;%p=();%hb=();
 open(F, '<', $h{$f}.'matrix1.mtx')||die"$!";
 <F>;<F>;
 while(<F>){chomp;
@@ -11,12 +11,19 @@ s/ /_/;
 $p{$_}=1
 }
 close F;
-open(F, "<:gzip", $h{$f}.'barcodes.tsv.gz')||die"$!";
+$i=0;$j=0;
+open(F, "<:gzip", "barcodes/$f.tsv.gz")||die"$!";
+open(O, ">:gzip", $h{$f}.'barcodes.tsv.gz')||die"$!";
 while(<F>){chomp;
 $i++;
-$hb{$i}=1 if defined $p{$_}
+if (defined $p{$_}){
+$j++;
+$hb{$i}=$j;
+print O $_;
+}
 }
 close F;
+close O;
 $i=0;$j=0;$k=0;
 open(F, "<:gzip", $f.'.mtx.gz')||die"$!";
 <F>;<F>;
@@ -25,7 +32,7 @@ while(<F>){
 $i=$t[0] if $i<$t[0];
 $j=$t[1] if $j<$t[1];
 if (defined $hb{$t[1]}){
-$s.=$_;
+$s.="$t[0] ".$hb{$t[1]}." $t[2]";
 $k++
 }
 }

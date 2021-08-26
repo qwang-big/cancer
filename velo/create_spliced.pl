@@ -3,7 +3,7 @@ while(<DATA>){chomp;
 $h{$1}=$_ if /\/(\S+)\/outs/
 }
 foreach $f(keys %h){
-$s='';$i=0;%hf=();%hb=();%hf=();
+$s='';$i=0;$j=0;$k=0;%hf=();%hb=();
 open(F, "<:gzip", $h{$f}.'barcodes.tsv.gz');
 while(<F>){chomp;
 $i++;
@@ -19,13 +19,13 @@ $hf{$t[0]}=$i;
 }
 close F;
 open(F, "<", $f.'.cnt')||die"$! $f";
-while(<F>){
-@t=split(/ /);
+while(<F>){chomp;
+@t=split(/\t/);
 @d=split(/_/,$t[0]);
 $x=int($d[0]/50);
 $y=int($d[1]/50);
 if (defined $hb{"$x\_$y"}){
-$s.="$hf{$t[1]} ".$hb{"$x\_$y"}." $t[2]";
+$s.="$hf{$t[1]} ".$hb{"$x\_$y"}." $t[2]\n";
 $i = $hf{$t[1]} if $i<$hf{$t[1]};
 $j = $hb{"$x\_$y"} if $j<$hb{"$x\_$y"};
 $k++

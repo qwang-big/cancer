@@ -14,7 +14,7 @@ $i=0;
 open(F, "<:gzip", $h{$f}.'features.tsv.gz')||die"$!";
 while(<F>){chomp;
 $i++;
-@t=split(/ /);
+@t=split(/\t/);
 $hf{$t[0]}=$i;
 }
 close F;

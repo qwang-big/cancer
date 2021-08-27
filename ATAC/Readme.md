@@ -97,3 +97,16 @@ p=p1+p2
 ggsave(p,file=paste0(f,'.pdf'))
 }
 ```
+## common peaks
+```r
+library(reshape2)
+library(gplots)
+x=read.table('down.xls')
+x$V1=substr(x$V1,1,nchar(x$V1)-9)
+x$V2=substr(x$V2,1,nchar(x$V2)-9)
+m=dcast(x,V1~V2)
+rownames(m)=m[,1]
+m=m[,-1]
+m=apply(m, 1, scales::rescale, to=c(0,1))
+heatmap.2(as.matrix(m),col=colorpanel(21,'blue','white','red'),srtCol=45,margins =c(10,10),density.info="none")
+```

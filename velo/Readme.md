@@ -21,5 +21,5 @@ d.layers["unspliced"] = d.X - d.layers["spliced"]
 scv.tl.velocity(d, mode = "stochastic")
 scv.tl.velocity_graph(d)
 d.obsm['X_umap'] = pd.read_csv(f+s+'barcodes.tsv.gz',compression='gzip',sep='_',header=None).to_numpy(dtype=np.float32)
-scv.pl.velocity_embedding_stream(d, basis='X_umap', save = f+'/'+f+'.pdf')
+scv.pl.velocity_embedding_stream(d, basis='umap', save = f+'/'+f+'.pdf')
 ```

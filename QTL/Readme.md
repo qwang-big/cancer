@@ -41,8 +41,4 @@ python ~/Downloads/ldsc-master/ldsc.py \
 	--frqfile-chr 1000G_frq/1000G.mac5eur. \
 	--out AD_cortex
 	
-x=read.table('down.xls')
-x$V3=seq_len(nrow(x))
-ggplot(x,aes(V3,V1,fill=V4))+geom_bar(stat='identity')+facet_wrap(.~V2,scale='free_x')
-
 ```
